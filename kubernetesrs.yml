@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: apache-replicaset
+  labels:
+    app: apache2
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: apache2
+  template:
+    metadata:
+      labels:
+        app: apache2
+    spec:
+      containers:
+      - name: apache-container
+        image: httpd:2.4
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: apache-volume
+          mountPath: /var/www/html
+      volumes:
+      - name: apache-volume
+        emptyDir: {}
